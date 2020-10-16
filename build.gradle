@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.palantir.docker' version "${palantirVersion}"
+}
+
+group 'org.example'
+version appVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compile "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+jar {
+    enabled=true
+    archiveFileName = 'app.jar'
+    manifest {
+        attributes "Main-Class": "org.example.Application"
+    }
+    from { // build 'fat' jar
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+docker {
+    name = "app:latest"
+    files tasks.jar.outputs
+    copySpec.from("build").into("build")
+    setDockerfile(file("Dockerfile"))
+}
+
+docker.dependsOn jar
