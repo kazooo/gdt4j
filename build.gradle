@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
@@ -14,6 +15,8 @@ plugins {
     id 'java'
     id 'idea'
     id 'com.palantir.docker' version "${palantirVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 group 'org.example'
@@ -24,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compile "org.springframework.boot:spring-boot-starter"
     compile "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
