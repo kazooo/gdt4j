@@ -32,15 +32,8 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
 
-jar {
-    enabled=true
+bootJar {
     archiveFileName = 'app.jar'
-    manifest {
-        attributes "Main-Class": "org.example.Application"
-    }
-    from { // build 'fat' jar
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
 }
 
 docker {
@@ -50,4 +43,4 @@ docker {
     setDockerfile(file("Dockerfile"))
 }
 
-docker.dependsOn jar
+docker.dependsOn bootJar
