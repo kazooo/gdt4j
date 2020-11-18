@@ -2,3 +2,5 @@
 
 Simple Gradle project template with Log4J2 logging and Lombok support.\
 It uses Palantir Docker plugin to dockerize Java 14 application and run it in Docker container.
+
+Branch **'spring-boot'** contains the same template but with Spring Boot preconfigured dependencies.
